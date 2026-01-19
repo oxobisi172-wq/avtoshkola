@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости — Автошкола «Авангард»</title>
+    <!-- Те же стили и скрипты, что и в index.html -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* ЦВЕТНОЙ СКРОЛЛБАР */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+            border-radius: 6px;
+            border: 3px solid #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #2563eb, #7c3aed);
+        }
+
+		/* Бесшовный "дорогой" градиент */
+        .gradient-text {
+            /* Структура: Начало -> Середина -> Центр (Яркий) -> Середина -> Начало */
+            background: linear-gradient(
+                to right,
+                #3b82f6 0%,   /* Синий */
+                #8b5cf6 25%,  /* Фиолетовый */
+                #06b6d4 50%,  /* Бирюзовый (центр сияния) */
+                #8b5cf6 75%,  /* Фиолетовый */
+                #3b82f6 100%  /* Синий (должен совпадать с 0%) */
+            );
+            background-size: 200% auto; /* Растягиваем градиент, чтобы было куда двигаться */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* 6s — скорость (чем больше, тем медленнее и плавнее) */
+            animation: shine-text 6s linear infinite; 
+        }
+
+        @keyframes shine-text {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: -200% center;
+            }
+        }
+		
+		/* Градиентные шаги */
+		  .step-color-1 { background: linear-gradient(135deg, #3b82f6, #6366f1); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); } /* Синий */
+		  .step-color-2 { background: linear-gradient(135deg, #6366f1, #8b5cf6); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); } /* Индиго */
+		  .step-color-3 { background: linear-gradient(135deg, #8b5cf6, #a855f7); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); } /* Фиолетовый */
+		  .step-color-4 { background: linear-gradient(135deg, #a855f7, #d946ef); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4); } /* Фуксия */
+		  .step-color-5 { background: linear-gradient(135deg, #d946ef, #ec4899); box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4); } /* Розовый */
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #c4b5fd);
+        }
+        
+        .gradient-border {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+        }
+        
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+        }
+        
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .animate-fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* SHIMMER EFFECT FOR BUTTONS */
+        .btn-gradient {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon-gradient {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.9) 100%),
+                        url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .step-line {
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+        }
+        
+        .review-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .float-animation {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        .accessibility-mode {
+            filter: grayscale(100%) contrast(1.2);
+        }
+        
+        .accessibility-mode * {
+            font-size: 120% !important;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        /* Стили ошибки валидации */
+        .input-error {
+            border-color: #ef4444 !important;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+		@keyframes constant-glow {
+		            0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+		            50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.9), 0 0 15px rgba(139, 92, 246, 0.6); }
+		            100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+		        }
+
+		        .btn-glow {
+		            animation: constant-glow 2s infinite ease-in-out;
+		}
+		/* Анимация диагонального блика */
+		@keyframes sheen-flow {
+		            0% { left: -100%; opacity: 0; } /* Начало за кадром */
+		            1% { opacity: 0.5; } 
+		            15% { left: 200%; opacity: 0.5; } /* Пролет вправо за 15% времени */
+		            100% { left: 200%; opacity: 0; } /* Остальные 85% времени - пауза */
+		}
+
+		        .btn-sheen {
+		            position: relative;
+		            overflow: hidden !important; /* Чтобы блик не вылетал за границы */
+		}
+
+		        .btn-sheen::after {
+		            content: '';
+		            position: absolute;
+		            top: 0;
+		            left: -100%;
+		            width: 50%;
+		            height: 100%;
+		            /* Белый полупрозрачный градиент */
+		            background: linear-gradient(
+		                to right,
+		                rgba(255, 255, 255, 0) 0%,
+		                rgba(255, 255, 255, 0.6) 50%,
+		                rgba(255, 255, 255, 0) 100%
+		            );
+		            transform: skewX(-25deg); /* Наклон по диагонали */
+		            z-index: 10;
+		            pointer-events: none; /* Чтобы клики проходили сквозь блик */
+		            animation: sheen-flow 7s infinite ease-in-out; /* 7 секунд цикл */
+		}
+		
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header (Упрощенная версия для внутренних страниц) -->
+    <header class="bg-white/95 backdrop-blur-md shadow-sm fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <!-- Замените на путь к вашему лого -->
+                <img src="images/logo.png" alt="Лого" class="w-10 h-10 rounded-xl object-contain">
+                <span class="text-xl font-bold gradient-text">Авангард</span>
+            </a>
+            <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                На главную
+            </a>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="pt-32 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-fade-up">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Лента <span class="gradient-text">новостей</span></h1>
+            <p class="text-xl text-gray-600">События, изменения в ПДД и новости автошколы</p>
+        </div>
+
+        <!-- Контейнер для новостей (grid-cols-3 как на главной) -->
+        <div id="all-news-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Сюда загрузятся ВСЕ новости -->
+        </div>
+    </main>
+
+    <!-- Footer (Упрощенный) -->
+    <footer class="bg-gray-900 text-white py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© 1996 – 2026, Автошкола «Авангард».</p>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="js/news-loader.js"></script>
+    <script>
+        // Intersection Observer для анимации (тот же, что в index.html)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        });
+        document.querySelectorAll('.animate-fade-up').forEach(el => observer.observe(el));
+
+        // Загружаем ВСЕ новости (второй параметр false или пропущен)
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNews('all-news-container', false);
+        });
+    </script>
+	<!-- МОДАЛЬНОЕ ОКНО НОВОСТЕЙ -->
+	<div id="news-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+	    <!-- Затемнение фона -->
+	    <div class="fixed inset-0 bg-gray-900/60 transition-opacity backdrop-blur-sm" onclick="closeNewsModal()"></div>
+
+	    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+	        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+	            <!-- Само окно -->
+	            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl border border-white/20">
+                
+	                <!-- Шапка окна -->
+	                <div class="bg-gray-50/80 backdrop-blur px-4 py-4 sm:px-6 flex justify-between items-start border-b border-gray-100 sticky top-0 z-20">
+	                    <h3 class="text-xl font-bold leading-6 text-gray-900 pr-8" id="modal-title">Заголовок новости</h3>
+	                    <button type="button" class="rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors p-1 focus:outline-none" onclick="closeNewsModal()">
+	                        <span class="sr-only">Закрыть</span>
+	                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+	                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+	                        </svg>
+	                    </button>
+	                </div>
+
+	                <!-- Контент (сюда будет вставляться HTML новости) -->
+	                <div class="px-6 py-6 sm:p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+	                    <!-- Класс prose из Tailwind Typography помогает красиво оформить HTML контент -->
+	                    <div id="modal-content" class="prose prose-blue prose-lg max-w-none text-gray-600">
+	                        <!-- Сюда скрипт вставит текст -->
+	                    </div>
+	                </div>
+
+	                <!-- Подвал окна -->
+	                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-100">
+	                    <button type="button" class="btn-gradient text-white w-full inline-flex justify-center rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm hover:shadow-lg transition-all sm:w-auto" onclick="closeNewsModal()">Понятно</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<script>
+	    // Логика управления окном
+	    const modal = document.getElementById('news-modal');
+	    const modalTitle = document.getElementById('modal-title');
+	    const modalContent = document.getElementById('modal-content');
+
+	    // Функция открытия (вызывается при клике на новость)
+	    function openNewsModal(title, htmlContent) {
+	        modalTitle.textContent = title;
+	        modalContent.innerHTML = htmlContent; // Вставляет HTML разметку
+	        modal.classList.remove('hidden');
+	        document.body.style.overflow = 'hidden'; // Блокируем прокрутку основного сайта
+	    }
+
+	    // Функция закрытия
+	    function closeNewsModal() {
+	        modal.classList.add('hidden');
+	        document.body.style.overflow = ''; // Разблокируем прокрутку
+	    }
+
+	    // Закрытие по клавише Esc
+	    document.addEventListener('keydown', function(event) {
+	        if (event.key === "Escape") {
+	            closeNewsModal();
+	        }
+	    });
+	</script>
+</body>
+</html>
